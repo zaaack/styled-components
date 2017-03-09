@@ -5,7 +5,9 @@ import type { RuleSet } from '../types'
 import flatten from '../utils/flatten'
 import styleSheet from './StyleSheet'
 
-export default class ComponentStyle {
+type PreParser = (selector: string, css: string, opt1?: bool, opt2?: bool) => string;
+
+export default (preparser: PreParser) => class ComponentStyle {
   rules: RuleSet;
   selector: ?string;
 
