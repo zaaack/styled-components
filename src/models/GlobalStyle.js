@@ -1,13 +1,11 @@
 // @flow
-import stylis from 'stylis'
-
 import type { RuleSet } from '../types'
 import flatten from '../utils/flatten'
 import styleSheet from './StyleSheet'
 
-type PreParser = (selector: string, css: string, opt1?: bool, opt2?: bool) => string;
+type PreProcessor = (selector: string, css: string, opt1?: boolean, opt2?: boolean) => string
 
-export default (preparser: PreParser) => class ComponentStyle {
+export default (preprocessor: PreProcessor) => class ComponentStyle {
   rules: RuleSet;
   selector: ?string;
 
@@ -20,7 +18,7 @@ export default (preparser: PreParser) => class ComponentStyle {
     if (!styleSheet.injected) styleSheet.inject()
     const flatCSS = flatten(this.rules).join('')
     const cssString = this.selector ? `${this.selector} { ${flatCSS} }` : flatCSS
-    const css = stylis('', cssString, false, false)
+    const css = preprocessor('', cssString, false, false)
     styleSheet.insert(css)
   }
 }

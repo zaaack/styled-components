@@ -21,8 +21,9 @@ import ThemeProvider from './models/ThemeProvider'
 /* Import Higher Order Components */
 import withTheme from './hoc/withTheme'
 
-/* Instantiate singletons */
 const GlobalStyle = _GlobalStyle(stylis)
+
+/* Instantiate singletons */
 const keyframes = _keyframes(generateAlphabeticName, GlobalStyle)
 const styled = _styled(_styledComponent(_ComponentStyle(generateAlphabeticName)))
 const injectGlobal = _injectGlobal(GlobalStyle)
