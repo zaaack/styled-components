@@ -76,4 +76,22 @@ describe('injectGlobal', () => {
       }
     `)
   })
+
+  it(`should hoist @import statements to the top so they're valid`, () => {
+    injectGlobal`
+      html {
+        ${rule1}
+      }
+    `
+    injectGlobal`
+      @import "something.css";
+    `
+
+    expectCSSMatches(`
+      @import "something.css";
+      html {
+        ${rule1}
+      }
+    `)
+  })
 });
