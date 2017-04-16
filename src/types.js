@@ -1,11 +1,11 @@
 // @flow
-export type Interpolation = ((executionContext: Object) => Interpolation) |
+import type { RuleSet } from './models/RuleSet'
+
+export type DeferredInterpolation = (executionContext: Object) => Interpolation
+export type Interpolation = DeferredInterpolation |
   string |
   number |
-  Array<Interpolation>
-
-/* todo: I want this to actually be an array of Function | string but that causes errors */
-export type RuleSet = Array<Interpolation>
+  RuleSet
 
 /* eslint-disable no-undef */
 export type Target = string | ReactClass<*>

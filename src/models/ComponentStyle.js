@@ -1,7 +1,8 @@
 // @flow
 import hashStr from '../vendor/glamor/hash'
 
-import type { RuleSet, NameGenerator, Flattener, Stringifier } from '../types'
+import type { RuleSet } from './RuleSet'
+import type { NameGenerator, Flattener, Stringifier } from '../types'
 import StyleSheet from './StyleSheet'
 
 /*
@@ -10,11 +11,11 @@ import StyleSheet from './StyleSheet'
  */
 export default (nameGenerator: NameGenerator, flatten: Flattener, stringifyRules: Stringifier) => {
   class ComponentStyle {
-    rules: RuleSet
+    ruleSet: RuleSet
     componentId: string
 
     constructor(rules: RuleSet, componentId: string) {
-      this.rules = rules
+      this.ruleSet = rules
       this.componentId = componentId
       if (!StyleSheet.instance.hasInjectedComponent(this.componentId)) {
         const placeholder = process.env.NODE_ENV !== 'production' ? `.${componentId} {}` : ''
@@ -28,8 +29,8 @@ export default (nameGenerator: NameGenerator, flatten: Flattener, stringifyRules
      * Returns the hash to be injected on render()
      * */
     generateAndInjectStyles(executionContext: Object, styleSheet: StyleSheet) {
-      const flatCSS = flatten(this.rules, executionContext)
-      const hash = hashStr(this.componentId + flatCSS.join(''))
+      const flatCSS = flatten(this.ruleSet.rules, executionContext)
+      const hash = hashStr(this.componentId + flatCSS.toCssString())
 
       const existingName = styleSheet.getName(hash)
       if (existingName) return existingName
@@ -37,7 +38,7 @@ export default (nameGenerator: NameGenerator, flatten: Flattener, stringifyRules
       const name = nameGenerator(hash)
       if (styleSheet.alreadyInjected(hash, name)) return name
 
-      const css = stringifyRules(flatCSS, `.${name}`)
+      const css = stringifyRules(flatCSS, `\n.${name}`)
       styleSheet.inject(this.componentId, true, css, hash, name)
       return name
     }

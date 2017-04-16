@@ -1,14 +1,14 @@
 // @flow
 import stylis from 'stylis'
-import type { Interpolation } from '../types'
+import type { RuleSet } from '../models/RuleSet'
 
 const stringifyRules = (
-  rules: Array<Interpolation>,
+  ruleSet: RuleSet,
   selector: ?string,
   prefix: ?string,
 ): string => {
-  const flatCSS = rules
-    .join('')
+  const flatCSS = ruleSet
+    .toCssString()
     .replace(/^\s*\/\/.*$/gm, '') // replace JS comments
 
   const cssStr = (selector && prefix) ?

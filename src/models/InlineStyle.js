@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native'
 import transformDeclPairs from 'css-to-react-native'
 
 import hashStr from '../vendor/glamor/hash'
-import type { RuleSet } from '../types'
+import type { RuleSet } from './RuleSet'
 import flatten from '../utils/flatten'
 import parse from '../vendor/postcss-safe-parser/parse'
 

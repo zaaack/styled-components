@@ -4,7 +4,8 @@ import { createElement } from 'react'
 import type { Theme } from './ThemeProvider'
 
 import isTag from '../utils/isTag'
-import type { RuleSet, Target } from '../types'
+import type { RuleSet } from './RuleSet'
+import type { Target } from '../types'
 
 import { CHANNEL } from './ThemeProvider'
 import InlineStyle from './InlineStyle'

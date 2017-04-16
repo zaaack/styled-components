@@ -1,6 +1,7 @@
 // @flow
 import hyphenate from 'fbjs/lib/hyphenateStyleName'
 import isPlainObject from 'is-plain-object'
+import RuleSet from '../models/RuleSet'
 
 import type { Interpolation } from '../types'
 
@@ -14,12 +15,12 @@ export const objToCss = (obj: Object, prevKey?: string): string => {
 }` : css
 }
 
-const flatten = (chunks: Array<Interpolation>, executionContext: ?Object): Array<Interpolation> => (
-  chunks.reduce((ruleSet: Array<Interpolation>, chunk: ?Interpolation) => {
-    /* Remove falsey values */
+const flatten = (chunks: Array<Interpolation>, executionContext: ?Object): RuleSet => (
+  new RuleSet(chunks.reduce((ruleSet: Array<Interpolation>, chunk: ?Interpolation) => {
+    /* Remove falsey values (but not 0) */
     if (chunk === undefined || chunk === null || chunk === false || chunk === '') return ruleSet
-    /* Flatten ruleSet */
-    if (Array.isArray(chunk)) return [...ruleSet, ...flatten(chunk, executionContext)]
+    /* Flatten RuleSet */
+    if (chunk instanceof RuleSet) return [...ruleSet, ...flatten(chunk.rules, executionContext)]
 
     /* Handle other components */
     // $FlowFixMe not sure how to make this pass
@@ -35,7 +36,7 @@ const flatten = (chunks: Array<Interpolation>, executionContext: ?Object): Array
     /* Handle objects */
     // $FlowFixMe have to add %checks somehow to isPlainObject
     return ruleSet.concat(isPlainObject(chunk) ? objToCss(chunk) : chunk.toString())
-  }, [])
+  }, []))
 )
 
 export default flatten
