@@ -1,7 +1,7 @@
 // @flow
 import type { Interpolation, Target } from '../types'
 
-export default (css: Function) => {
+export default ({css: Function}) => {
   const constructWithOptions = (componentConstructor: Function,
                                 tag: Target,
                                 options: Object = {}) => {

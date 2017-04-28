@@ -2,8 +2,10 @@
 import type { Target } from '../types'
 import domElements from '../utils/domElements'
 
-export default (styledComponent: Function, constructWithOptions: Function) => {
-  const styled = (tag: Target) => constructWithOptions(styledComponent, tag)
+
+
+export default (StyledComponent: Function, constructWithOptions: Function) => {
+  const styled = (tag: Target) => constructWithOptions(StyledComponent, tag)
 
   // Shorthands for all valid HTML Elements
   domElements.forEach(domElement => {
