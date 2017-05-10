@@ -18,7 +18,11 @@ import StyleSheet, { CONTEXT_KEY } from './StyleSheet'
 const escapeRegex = /[[\].#*$><+~=|^:(),"'`]/g
 const multiDashRegex = /--+/g
 
-export default (ComponentStyle: Function, constructWithOptions: Function) => {
+export default ({
+  ComponentStyle, constructWithOptions
+} : {
+  ComponentStyle: Function, constructWithOptions: Function
+}) => {
   /* We depend on components having unique IDs */
   const identifiers = {}
   const generateId = (_displayName: string) => {

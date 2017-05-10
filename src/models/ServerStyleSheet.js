@@ -74,7 +74,7 @@ class ServerTag implements Tag {
   }
 }
 
-export default class ServerStyleSheet {
+class ServerStyleSheet {
   instance: StyleSheet
   closed: boolean
 
@@ -113,3 +113,5 @@ export default class ServerStyleSheet {
     return new StyleSheet(isLocal => new ServerTag(isLocal))
   }
 }
+
+export default () => ServerStyleSheet

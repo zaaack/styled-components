@@ -18,4 +18,4 @@ const generateAlphabeticName = (code: number): string => {
   return chars[x % charsLength] + name
 }
 
-export default generateAlphabeticName
+export default () => generateAlphabeticName

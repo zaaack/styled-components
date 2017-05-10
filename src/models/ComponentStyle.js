@@ -8,7 +8,15 @@ import StyleSheet from './StyleSheet'
  ComponentStyle is all the CSS-specific stuff, not
  the React-specific stuff.
  */
-export default (nameGenerator: NameGenerator, flatten: Flattener, stringifyRules: Stringifier) => {
+export default ({
+  nameGenerator,
+  flatten,
+  stringifyRules,
+} : {
+  nameGenerator: NameGenerator,
+  flatten: Flattener,
+  stringifyRules: Stringifier,
+}) => {
   class ComponentStyle {
     rules: RuleSet
     componentId: string

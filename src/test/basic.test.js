@@ -14,7 +14,8 @@ describe('basic', () => {
     styled = resetStyled()
   })
 
-  it('should not throw an error when called', () => {
+  it.only('should not throw an error when called', () => {
+    console.log(Object.keys(styled))
     styled.div``
   })
 

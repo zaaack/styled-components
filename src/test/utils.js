@@ -3,6 +3,7 @@
  * This sets up our end-to-end test suite, which essentially makes sure
  * our public API works the way we promise/want
  */
+import superposition from '../superposition'
 import _styled from '../constructors/styled'
 import css from '../constructors/css'
 import _constructWithOptions from '../constructors/constructWithOptions'
@@ -22,17 +23,20 @@ let seededClassnames = []
 const classNames = () => seededClassnames.shift() || String.fromCodePoint(97 + index++)
 
 export const seedNextClassnames = (names: Array<string>) => seededClassnames = names
+
 export const resetStyled = (isServer: boolean = false) => {
   if (!document.head) throw new Error("Missing document <head>")
   document.head.innerHTML = ''
   StyleSheet.reset(isServer)
   index = 0
 
-  const ComponentStyle = _ComponentStyle(classNames, flatten, stringifyRules)
-  const constructWithOptions = _constructWithOptions(css)
-  const StyledComponent = _StyledComponent(ComponentStyle, constructWithOptions)
+  //const ComponentStyle = _ComponentStyle(classNames, flatten, stringifyRules)
+  //const constructWithOptions = _constructWithOptions(css)
+  //const StyledComponent = _StyledComponent(ComponentStyle, constructWithOptions)
 
-  return _styled(StyledComponent, constructWithOptions)
+  const wavefunction = superposition.createWavefunction()
+
+  return wavefunction.styled
 }
 
 export const resetNoParserStyled = () => {

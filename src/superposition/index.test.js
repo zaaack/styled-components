@@ -135,13 +135,40 @@ describe('complex objects', () => {
 
   it('should allow Maths to be patched', () => {
     const { Maths } = wavefunction
-    wavefunction.modify({Maths: ({ Constants }) => ({
-      sum: () => Constants.x + Constants.x,
-      product: () => Constants.y * Constants.y
-    })})
+    wavefunction.modify({
+      Maths: ({ Constants }) => ({
+        sum: () => Constants.x + Constants.x,
+        product: () => Constants.y * Constants.y
+      })
+    })
     expect(Maths.sum()).toBe(10)
     expect(Maths.product()).toBe(49)
     expect(() => wavefunction.modify()).toThrow("Collapsed due to 'Maths' having been called.")
   })
 
+})
+
+describe('functions', () => {
+  const Sum = ({ X, Y }) => {
+    const sum = () => X + Y
+    sum.something = 'here'
+    return sum
+  }
+  const X = () => 5
+  const Y = () => 3
+
+  let wavefunction
+  beforeEach(() => {
+    wavefunction = new Superposition({
+      Sum,
+      X,
+      Y
+    }).createWavefunction()
+  })
+
+  it('should proxy things defined on functions and collapse', () => {
+    const { Sum } = wavefunction
+    expect(Sum.something).toEqual('here')
+    expect(wavefunction._collapsed).toBeTruthy()
+  })
 })

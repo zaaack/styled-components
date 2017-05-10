@@ -63,4 +63,4 @@ const wrapWithTheme = (Component: ReactClass<any>) => {
   return hoistStatics(WithTheme, Component)
 }
 
-export default wrapWithTheme
+export default () => wrapWithTheme

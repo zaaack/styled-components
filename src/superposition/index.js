@@ -5,27 +5,44 @@ export default class Superposition {
 
   createWavefunction() {
     const components = Object.assign({}, this.initialState)
-    let collapsed = false
 
-    const wavefunction = {}
+    const wf = {
+      _collapsed: false,
+      _superposition: this,
+      modify(comps) {
+        if (this._collapsed) throw new Error(`Collapsed due to '${this._collapsed}' having been called.`)
+        return Object.assign(components, comps)
+      }
+    }
+
     Object.keys(components).forEach(name => {
-      Object.defineProperty(wavefunction, name, {
+      Object.defineProperty(wf, name, {
         enumerable: true,
         get() {
-          const virtual = components[name](wavefunction)
+          const virtual = components[name](wf)
           if (typeof virtual === 'function') {
-            return (...args) => {
-              if (!collapsed) collapsed = name
-              return components[name](wavefunction)(...args)
+            const proxyfunc = (...args) => {
+              if (!wf._collapsed) wf._collapsed = name
+              return components[name](wf)(...args)
             }
+            Object.keys(virtual).forEach(k => {
+              Object.defineProperty(proxyfunc, k, {
+                enumerable: true,
+                get() {
+                  if (!wf._collapsed) wf._collapsed = name
+                  return components[name](wf)[k]
+                },
+              })
+            })
+            return proxyfunc
           } else if (typeof virtual === 'object') {
             return Object.create(virtual, Object.keys(virtual).reduce((defs, k) => ({
               ...defs,
               [k]: {
                 enumerable: true,
                 get() {
-                  if (!collapsed) collapsed = name
-                  return components[name](wavefunction)[k]
+                  if (!wf._collapsed) wf._collapsed = name
+                  return components[name](wf)[k]
                 },
               },
             }), {}))
@@ -36,12 +53,6 @@ export default class Superposition {
       })
     })
 
-    wavefunction.modify = comps => {
-      if (collapsed) throw new Error(`Collapsed due to '${collapsed}' having been called.`)
-      return Object.assign(components, comps)
-    }
-    wavefunction._superposition = this
-
-    return wavefunction
+    return wf
   }
 }

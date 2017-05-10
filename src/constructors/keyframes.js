@@ -5,7 +5,15 @@ import StyleSheet from '../models/StyleSheet'
 
 const replaceWhitespace = (str: string): string => str.replace(/\s|\\n/g, '')
 
-export default (nameGenerator: NameGenerator, stringifyRules: Stringifier, css: Function) =>
+export default ({
+  nameGenerator,
+  stringifyRules,
+  css,
+} : {
+  nameGenerator: NameGenerator,
+  stringifyRules: Stringifier,
+  css: Function,
+}) =>
   (strings: Array<string>, ...interpolations: Array<Interpolation>): string => {
     const rules = css(strings, ...interpolations)
     const hash = hashStr(replaceWhitespace(JSON.stringify(rules)))
