@@ -154,15 +154,18 @@ describe('functions', () => {
     sum.something = 'here'
     return sum
   }
+  const Product = ({ X, Y }) => class {
+    execute() {
+      return X * Y
+    }
+  }
   const X = () => 5
   const Y = () => 3
 
   let wavefunction
   beforeEach(() => {
     wavefunction = new Superposition({
-      Sum,
-      X,
-      Y
+      Sum, X, Y, Product,
     }).createWavefunction()
   })
 
@@ -170,5 +173,10 @@ describe('functions', () => {
     const { Sum } = wavefunction
     expect(Sum.something).toEqual('here')
     expect(wavefunction._collapsed).toBeTruthy()
+  })
+
+  it('should proxy classes', () => {
+    const { Product } = wavefunction
+    expect(new Product().execute()).toBe(15)
   })
 })

@@ -21,10 +21,16 @@ export default class Superposition {
         get() {
           const virtual = components[name](wf)
           if (typeof virtual === 'function') {
-            const proxyfunc = (...args) => {
+            function proxyfunc(...args) {
               if (!wf._collapsed) wf._collapsed = name
-              return components[name](wf)(...args)
+              const targetFunc = components[name](wf)
+              /* If we called proxyfunc with new, call
+               * targetFunc with new. */
+              return this instanceof proxyfunc
+                ? new targetFunc(...args)
+                : targetFunc(...args);
             }
+
             Object.keys(virtual).forEach(k => {
               Object.defineProperty(proxyfunc, k, {
                 enumerable: true,
