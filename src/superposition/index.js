@@ -3,7 +3,7 @@ export default class Superposition {
     this.initialState = initialState
   }
 
-  createWaveFunction() {
+  createWavefunction() {
     const components = Object.assign({}, this.initialState)
     let collapsed = false
 

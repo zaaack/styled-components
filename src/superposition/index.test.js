@@ -11,7 +11,7 @@ describe('basic', () => {
       Sum,
       Product,
       Constant,
-    }).createWaveFunction()
+    }).createWavefunction()
   })
 
   it('should run', () => {
@@ -45,6 +45,23 @@ describe('basic', () => {
     expect(Product(9)).toBe(63)
     expect(() => wavefunction.modify({ Constant: () => 5 })).toThrow("Collapsed due to 'Product' having been called.")
   })
+
+  it('should be cloneable and changes only affect one', () => {
+    const other = wavefunction._superposition.createWavefunction()
+    const { Product } = wavefunction
+    const { Sum } = other
+    wavefunction.modify({ Constant: () => 5 })
+    expect(Sum(9)).toBe(16)
+    expect(Product(9)).toBe(45)
+  })
+
+  it('should be cloneable after collapse', () => {
+    const { Product } = wavefunction
+    wavefunction.modify({ Constant: () => 5 })
+    expect(Product(9)).toBe(45)
+    const { Sum } = wavefunction._superposition.createWavefunction()
+    expect(Sum(9)).toBe(16)
+  })
 })
 
 describe('objects', () => {
@@ -58,7 +75,7 @@ describe('objects', () => {
       Sum,
       Product,
       Constants
-    }).createWaveFunction()
+    }).createWavefunction()
   })
 
   it('should run', () => {
@@ -101,7 +118,7 @@ describe('complex objects', () => {
     wavefunction = new Superposition({
       Maths,
       Constants
-    }).createWaveFunction()
+    }).createWavefunction()
   })
 
   it('should run', () => {
