@@ -31,11 +31,11 @@ export const resetStyled = (isServer: boolean = false) => {
   StyleSheet.reset(isServer)
   index = 0
 
-  //const ComponentStyle = _ComponentStyle(classNames, flatten, stringifyRules)
-  //const constructWithOptions = _constructWithOptions(css)
-  //const StyledComponent = _StyledComponent(ComponentStyle, constructWithOptions)
-
   const wavefunction = superposition.createWavefunction()
+
+  wavefunction.modify({
+    nameGenerator: classNames
+  })
 
   return wavefunction.styled
 }

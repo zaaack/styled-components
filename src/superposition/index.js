@@ -1,11 +1,11 @@
 export default class Superposition {
-  constructor(constants, variables) {
-    if (variables) {
-      this.constants = constants
-      this.variables = variables
+  constructor(firstArg, secondArg) {
+    if (secondArg) {
+      this.constants = firstArg
+      this.variables = secondArg
     } else {
       this.constants = {}
-      this.variables = constants
+      this.variables = firstArg
     }
   }
 

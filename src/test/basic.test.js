@@ -23,7 +23,7 @@ describe('basic', () => {
     expectCSSMatches('')
   })
 
-  it.only('should inject component class when rendered even if no styles are passed', () => {
+  it('should inject component class when rendered even if no styles are passed', () => {
     const Comp = styled.div``
     shallow(<Comp />)
     expectCSSMatches('.sc-a {}')

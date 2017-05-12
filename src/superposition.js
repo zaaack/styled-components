@@ -4,6 +4,7 @@ import Superposition from './superposition/index'
 
 /* Import singletons */
 import flatten from './utils/flatten'
+import stringifyRules from './utils/stringifyRules'
 import generateAlphabeticName from './utils/generateAlphabeticName'
 import css from './constructors/css'
 import ServerStyleSheet from './models/ServerStyleSheet'
@@ -27,6 +28,7 @@ import withTheme from './hoc/withTheme'
 export default new Superposition({
   flatten,
   nameGenerator: generateAlphabeticName,
+  stringifyRules,
 }, {
   css,
   ServerStyleSheet,

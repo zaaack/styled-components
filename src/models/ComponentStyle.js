@@ -24,12 +24,6 @@ export default ({
 }) => {
   class CS implements ComponentStyle {
     constructor(rules: RuleSet, componentId: string) {
-      try {
-        throw new Error()
-      } catch (e) {
-        console.log(e.stack)
-      }
-      console.log(rules)
       this.rules = rules
       this.componentId = componentId
       if (!StyleSheet.instance.hasInjectedComponent(this.componentId)) {
