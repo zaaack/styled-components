@@ -2,15 +2,7 @@ import React from 'react'
 import { shallow } from 'enzyme'
 
 import { resetStyled, expectCSSMatches, seedNextClassnames } from './utils'
-
-import _injectGlobal from '../constructors/injectGlobal'
-import stringifyRules from '../utils/stringifyRules'
-import css from '../constructors/css'
-import _keyframes from '../constructors/keyframes'
 import StyleSheet, { SC_ATTR, LOCAL_ATTR } from '../models/StyleSheet'
-
-const keyframes = _keyframes(hash => `keyframe_${hash%1000}`, stringifyRules, css)
-const injectGlobal = _injectGlobal(stringifyRules, css)
 
 const getStyleTags = () => (
   Array.from(document.querySelectorAll('style')).map(el => ({
@@ -19,14 +11,20 @@ const getStyleTags = () => (
   }))
 )
 
-let styled
+let styled, keyframes, injectGlobal
 
 describe('rehydration', () => {
   /**
    * Make sure the setup is the same for every test
    */
   beforeEach(() => {
-    styled = resetStyled().styled
+    const wf = resetStyled()
+    wf.modify({
+      keyframesNameGenerator: () => hash => `keyframe_${hash%1000}`
+    })
+    styled = wf.styled
+    keyframes = wf.keyframes
+    injectGlobal = wf.injectGlobal
   })
 
   describe('with existing styled components', () => {

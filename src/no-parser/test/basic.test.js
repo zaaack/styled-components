@@ -8,7 +8,7 @@ let styled
 
 describe('basic', () => {
   beforeEach(() => {
-    styled = resetNoParserStyled()
+    styled = resetNoParserStyled().styled
   })
 
   it('should correctly assemble preprocessed CSS', () => {
