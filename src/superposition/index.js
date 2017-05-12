@@ -12,7 +12,7 @@ export default class Superposition {
   createWavefunction() {
     const components = Object.assign({}, this.variables)
 
-    const wf = {
+    const wf = Object.assign({}, this.constants, {
       _collapsed: false,
       _superposition: this,
       modify(comps) {
@@ -26,54 +26,68 @@ export default class Superposition {
         })
         return components
       },
-    }
-    console.log(this.constants)
-    Object.keys(this.constants).forEach(name => {
-      wf[name] = this.constants[name]
     })
 
+    let depth = 0
+    const stack = {}
     Object.keys(components).forEach(name => {
       Object.defineProperty(wf, name, {
         enumerable: true,
         get() {
-          console.log(name)
-          console.log(Object.keys(wf))
-          const virtual = components[name](wf)
-          if (typeof virtual === 'function') {
-            function proxyfunc(...args) {
-              if (!wf._collapsed) wf._collapsed = name
-              const targetFunc = components[name](wf)
-              /* If we called proxyfunc with new, call
-               * targetFunc with new. */
-              return this instanceof proxyfunc
-                ? new targetFunc(...args)
-                : targetFunc(...args)
-            }
-
-            Object.keys(virtual).forEach(k => {
-              Object.defineProperty(proxyfunc, k, {
-                enumerable: true,
-                get() {
-                  if (!wf._collapsed) wf._collapsed = name
-                  return components[name](wf)[k]
-                },
-              })
-            })
-            return proxyfunc
-          } else if (typeof virtual === 'object') {
-            return Object.create(virtual, Object.keys(virtual).reduce((defs, k) => ({
-              ...defs,
-              [k]: {
-                enumerable: true,
-                get() {
-                  if (!wf._collapsed) wf._collapsed = name
-                  return components[name](wf)[k]
-                },
-              },
-            }), {}))
-          } else {
-            return virtual
+          if (stack[name] !== undefined) {
+            throw new Error(
+            `Circular dependency detected! Already accessed '${name}' in dep chain ${
+              Object.keys(stack).sort((a, b) => stack[a] - stack[b]).join(' → ')
+            }.`,
+          )
           }
+
+          function resolveDeps() {
+            console.log(stack)
+
+            const virtual = components[name](wf)
+            if (typeof virtual === 'function') {
+              function proxyfunc(...args) {
+                if (!wf._collapsed) wf._collapsed = name
+                const targetFunc = components[name](wf)
+                /* If we called proxyfunc with new, call
+                 * targetFunc with new. */
+                return this instanceof proxyfunc
+                  ? new targetFunc(...args)
+                  : targetFunc(...args)
+              }
+
+              Object.keys(virtual).forEach(k => {
+                Object.defineProperty(proxyfunc, k, {
+                  enumerable: true,
+                  get() {
+                    if (!wf._collapsed) wf._collapsed = name
+                    return components[name](wf)[k]
+                  },
+                })
+              })
+              return proxyfunc
+            } else if (typeof virtual === 'object') {
+              return Object.create(virtual, Object.keys(virtual).reduce((defs, k) => ({
+                ...defs,
+                [k]: {
+                  enumerable: true,
+                  get() {
+                    if (!wf._collapsed) wf._collapsed = name
+                    return components[name](wf)[k]
+                  },
+                },
+              }), {}))
+            } else {
+              return virtual
+            }
+          }
+
+          stack[name] = depth++
+          const retVal = resolveDeps()
+          depth--
+          delete stack[name]
+          return retVal
         },
       })
     })

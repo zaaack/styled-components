@@ -187,3 +187,56 @@ describe('functions', () => {
     expect(product.z).toBe(7)
   })
 })
+
+describe('circles', () => {
+  const A = ({B}) => 1
+  const B = ({A}) => 2
+  const C = () => 3
+  const D = ({A}) => 4
+  const E = ({F}) => 5
+  const F = ({G}) => 6
+  const G = ({E}) => 7
+
+  let wavefunction
+  beforeEach(() => {
+    wavefunction = new Superposition({
+      A, B, C, D, E, F, G
+    }).createWavefunction()
+  })
+
+  it(`should work if the circular dependency isn't accessed`, () => {
+    const { C } = wavefunction
+    expect(C).toBe(3)
+  })
+
+  it(`should throw if circle is detected`, () => {
+    expect(() => {
+      const { A } = wavefunction
+    }).toThrow("Circular dependency detected! Already accessed 'A' in dep chain A → B.")
+  })
+
+  it(`should throw if circle is detected`, () => {
+    expect(() => {
+      const { B } = wavefunction
+    }).toThrow("Circular dependency detected! Already accessed 'B' in dep chain B → A.")
+  })
+
+  it(`should throw if circle is detected`, () => {
+    expect(() => {
+      const { D } = wavefunction
+    }).toThrow("Circular dependency detected! Already accessed 'A' in dep chain D → A → B.")
+  })
+
+  it(`should throw if circle is detected`, () => {
+    expect(() => {
+      const { E } = wavefunction
+    }).toThrow("Circular dependency detected! Already accessed 'E' in dep chain E → F → G.")
+  })
+
+  it(`should throw if circle is detected`, () => {
+    expect(() => {
+      const { G } = wavefunction
+    }).toThrow("Circular dependency detected! Already accessed 'G' in dep chain G → E → F.")
+  })
+
+})
