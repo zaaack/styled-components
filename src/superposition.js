@@ -26,10 +26,9 @@ import withTheme from './hoc/withTheme'
 
 /* Export everything */
 export default new Superposition({
-  flatten,
-  nameGenerator: generateAlphabeticName,
-  stringifyRules,
-}, {
+  flatten: () => flatten,
+  nameGenerator: () => generateAlphabeticName,
+  stringifyRules: () => stringifyRules,
   css,
   ServerStyleSheet,
   StyleSheetManager,

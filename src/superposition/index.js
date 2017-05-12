@@ -1,32 +1,32 @@
+function checkType(obj, k) {
+  if (typeof obj[k] !== 'function') {
+    throw new Error(
+      `Every value must be a function of its dependencies! '${k}' was a ${typeof obj[k]}.`
+    )
+  }
+}
+
 export default class Superposition {
-  constructor(firstArg, secondArg) {
-    if (secondArg) {
-      this.constants = firstArg
-      this.variables = secondArg
-    } else {
-      this.constants = {}
-      this.variables = firstArg
-    }
+  constructor(initialState) {
+    Object.keys(initialState).forEach(name => checkType(initialState, name))
+    this.initialState = initialState
   }
 
   createWavefunction() {
-    const components = Object.assign({}, this.variables)
+    const components = Object.assign({}, this.initialState)
 
-    const wf = Object.assign({}, this.constants, {
+    const wf = {
       _collapsed: false,
       _superposition: this,
       modify(comps) {
         if (this._collapsed) throw new Error(`Collapsed due to '${this._collapsed}' having been called.`)
         Object.keys(comps).forEach(name => {
-          if (components[name] !== undefined) {
-            components[name] = comps[name]
-          } else {
-            wf[name] = comps[name]
-          }
+          checkType(comps, name)
+          components[name] = comps[name]
         })
         return components
       },
-    })
+    }
 
     let depth = 0
     const stack = {}
@@ -43,8 +43,6 @@ export default class Superposition {
           }
 
           function resolveDeps() {
-            console.log(stack)
-
             const virtual = components[name](wf)
             if (typeof virtual === 'function') {
               function proxyfunc(...args) {
