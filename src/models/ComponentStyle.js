@@ -38,7 +38,6 @@ export default ({
      * Returns the hash to be injected on render()
      * */
     generateAndInjectStyles(executionContext: Object, styleSheet: StyleSheet) {
-      console.log(flatten, this.rules)
       const flatCSS = flatten(this.rules, executionContext)
       const hash = hashStr(this.componentId + flatCSS.join(''))
 

@@ -34,7 +34,7 @@ export const resetStyled = (isServer: boolean = false) => {
   const wavefunction = superposition.createWavefunction()
 
   wavefunction.modify({
-    nameGenerator: classNames
+    nameGenerator: () => classNames
   })
 
   return wavefunction.styled
