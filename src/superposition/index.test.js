@@ -3,14 +3,15 @@ import Superposition from './index'
 describe('basic', () => {
   const Sum = ({ Constant }) => value => Constant + value
   const Product = ({ Constant }) => value => Constant * value
-  const Constant = () => 7
+  const Constant = 7
 
   let wavefunction
   beforeEach(() => {
     wavefunction = new Superposition({
+      Constant,
+    }, {
       Sum,
       Product,
-      Constant,
     }).createWavefunction()
   })
 
@@ -21,7 +22,7 @@ describe('basic', () => {
   })
 
   it('should be configurable before getting', () => {
-    wavefunction.modify({ Constant: () => 5 })
+    wavefunction.modify({ Constant: 5 })
     const { Sum, Product } = wavefunction
     expect(Sum(9)).toBe(14)
     expect(Product(9)).toBe(45)
@@ -29,7 +30,7 @@ describe('basic', () => {
 
   it('should be configurable after getting', () => {
     const { Sum, Product } = wavefunction
-    wavefunction.modify({ Constant: () => 5 })
+    wavefunction.modify({ Constant: 5 })
     expect(Sum(9)).toBe(14)
     expect(Product(9)).toBe(45)
   })
@@ -37,27 +38,28 @@ describe('basic', () => {
   it('should not configurable after collapse', () => {
     const { Sum } = wavefunction
     expect(Sum(9)).toBe(16)
-    expect(() => wavefunction.modify({ Constant: () => 5 })).toThrow("Collapsed due to 'Sum' having been called.")
+    expect(() => wavefunction.modify({ Constant: 5 }))
+      .toThrow("Collapsed due to 'Sum' having been called.")
   })
 
   it('should not configurable after collapse', () => {
     const { Product } = wavefunction
     expect(Product(9)).toBe(63)
-    expect(() => wavefunction.modify({ Constant: () => 5 })).toThrow("Collapsed due to 'Product' having been called.")
+    expect(() => wavefunction.modify({ Constant: 5 })).toThrow("Collapsed due to 'Product' having been called.")
   })
 
   it('should be cloneable and changes only affect one', () => {
     const other = wavefunction._superposition.createWavefunction()
     const { Product } = wavefunction
     const { Sum } = other
-    wavefunction.modify({ Constant: () => 5 })
+    wavefunction.modify({ Constant: 5 })
     expect(Sum(9)).toBe(16)
     expect(Product(9)).toBe(45)
   })
 
   it('should be cloneable after collapse', () => {
     const { Product } = wavefunction
-    wavefunction.modify({ Constant: () => 5 })
+    wavefunction.modify({ Constant: 5 })
     expect(Product(9)).toBe(45)
     const { Sum } = wavefunction._superposition.createWavefunction()
     expect(Sum(9)).toBe(16)
@@ -155,8 +157,11 @@ describe('functions', () => {
     return sum
   }
   const Product = ({ X, Y }) => class {
+    constructor(z) {
+      this.z = z
+    }
     execute() {
-      return X * Y
+      return X * Y * this.z
     }
   }
   const X = () => 5
@@ -177,6 +182,8 @@ describe('functions', () => {
 
   it('should proxy classes', () => {
     const { Product } = wavefunction
-    expect(new Product().execute()).toBe(15)
+    const product = new Product(7)
+    expect(product.execute()).toBe(105)
+    expect(product.z).toBe(7)
   })
 })

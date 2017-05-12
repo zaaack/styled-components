@@ -4,7 +4,6 @@ import Superposition from './superposition/index'
 
 /* Import singletons */
 import flatten from './utils/flatten'
-import stringifyRules from './utils/stringifyRules'
 import generateAlphabeticName from './utils/generateAlphabeticName'
 import css from './constructors/css'
 import ServerStyleSheet from './models/ServerStyleSheet'
@@ -26,10 +25,10 @@ import withTheme from './hoc/withTheme'
 
 /* Export everything */
 export default new Superposition({
-  css,
   flatten,
-  stringifyRules,
   nameGenerator: generateAlphabeticName,
+}, {
+  css,
   ServerStyleSheet,
   StyleSheetManager,
   StyledComponent,

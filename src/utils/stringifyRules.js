@@ -25,4 +25,4 @@ const stringifyRules = (
   return css
 }
 
-export default () => stringifyRules
+export default stringifyRules

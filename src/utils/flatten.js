@@ -38,4 +38,4 @@ const flatten = (chunks: Array<Interpolation>, executionContext: ?Object): Array
   }, [])
 )
 
-export default () => flatten
+export default flatten

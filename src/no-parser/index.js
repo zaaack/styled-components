@@ -1,4 +1,4 @@
-// @flow
+// TODO: restore flow
 
 /* Import no-parser singleton variants */
 import flatten from './flatten'

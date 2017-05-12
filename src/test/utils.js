@@ -1,4 +1,5 @@
-// @flow
+// TODO: restore flow
+
 /**
  * This sets up our end-to-end test suite, which essentially makes sure
  * our public API works the way we promise/want

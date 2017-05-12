@@ -1,24 +1,43 @@
 export default class Superposition {
-  constructor(initialState) {
-    this.initialState = initialState
+  constructor(constants, variables) {
+    if (variables) {
+      this.constants = constants
+      this.variables = variables
+    } else {
+      this.constants = {}
+      this.variables = constants
+    }
   }
 
   createWavefunction() {
-    const components = Object.assign({}, this.initialState)
+    const components = Object.assign({}, this.variables)
 
     const wf = {
       _collapsed: false,
       _superposition: this,
       modify(comps) {
         if (this._collapsed) throw new Error(`Collapsed due to '${this._collapsed}' having been called.`)
-        return Object.assign(components, comps)
-      }
+        Object.keys(comps).forEach(name => {
+          if (components[name] !== undefined) {
+            components[name] = comps[name]
+          } else {
+            wf[name] = comps[name]
+          }
+        })
+        return components
+      },
     }
+    console.log(this.constants)
+    Object.keys(this.constants).forEach(name => {
+      wf[name] = this.constants[name]
+    })
 
     Object.keys(components).forEach(name => {
       Object.defineProperty(wf, name, {
         enumerable: true,
         get() {
+          console.log(name)
+          console.log(Object.keys(wf))
           const virtual = components[name](wf)
           if (typeof virtual === 'function') {
             function proxyfunc(...args) {
@@ -28,7 +47,7 @@ export default class Superposition {
                * targetFunc with new. */
               return this instanceof proxyfunc
                 ? new targetFunc(...args)
-                : targetFunc(...args);
+                : targetFunc(...args)
             }
 
             Object.keys(virtual).forEach(k => {

@@ -4,6 +4,11 @@ import hashStr from '../vendor/glamor/hash'
 import type { RuleSet, NameGenerator, Flattener, Stringifier } from '../types'
 import StyleSheet from './StyleSheet'
 
+export type ComponentStyle = {
+  rules: RuleSet,
+  componentId: string
+}
+
 /*
  ComponentStyle is all the CSS-specific stuff, not
  the React-specific stuff.
@@ -12,16 +17,19 @@ export default ({
   nameGenerator,
   flatten,
   stringifyRules,
-} : {
+}: {
   nameGenerator: NameGenerator,
   flatten: Flattener,
   stringifyRules: Stringifier,
 }) => {
-  class ComponentStyle {
-    rules: RuleSet
-    componentId: string
-
+  class CS implements ComponentStyle {
     constructor(rules: RuleSet, componentId: string) {
+      try {
+        throw new Error()
+      } catch (e) {
+        console.log(e.stack)
+      }
+      console.log(rules)
       this.rules = rules
       this.componentId = componentId
       if (!StyleSheet.instance.hasInjectedComponent(this.componentId)) {
@@ -36,6 +44,7 @@ export default ({
      * Returns the hash to be injected on render()
      * */
     generateAndInjectStyles(executionContext: Object, styleSheet: StyleSheet) {
+      console.log(flatten, this.rules)
       const flatCSS = flatten(this.rules, executionContext)
       const hash = hashStr(this.componentId + flatCSS.join(''))
 
@@ -55,5 +64,5 @@ export default ({
     }
   }
 
-  return ComponentStyle
+  return CS
 }

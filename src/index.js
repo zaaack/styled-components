@@ -1,5 +1,4 @@
-import superposition from "./superposition"
-const wavefunction = superposition.createWavefunction()
+import wavefunction from './superposition'
 
 export default wavefunction.styled
 export const {
