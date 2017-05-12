@@ -89,4 +89,4 @@ ThemeProvider.contextTypes = {
   [CHANNEL]: PropTypes.func,
 }
 
-export default () => ThemeProvider
+export default ThemeProvider

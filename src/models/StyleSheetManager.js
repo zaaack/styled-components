@@ -23,4 +23,4 @@ StyleSheetManager.propTypes = {
   sheet: PropTypes.instanceOf(StyleSheet).isRequired,
 }
 
-export default () => StyleSheetManager
+export default StyleSheetManager

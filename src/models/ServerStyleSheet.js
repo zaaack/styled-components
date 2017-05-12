@@ -114,4 +114,4 @@ class ServerStyleSheet {
   }
 }
 
-export default () => ServerStyleSheet
+export default ServerStyleSheet

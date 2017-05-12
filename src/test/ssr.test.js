@@ -1,26 +1,13 @@
 import React from 'react'
 import { renderToString } from  'react-dom/server'
-import ServerStyleSheet from '../models/ServerStyleSheet'
-import { resetStyled, stripWhitespace, nameGenerator } from './utils'
-import _injectGlobal from '../constructors/injectGlobal'
-import _keyframes from '../constructors/keyframes'
-import stringifyRules from '../utils/stringifyRules'
-import css from '../constructors/css'
-const injectGlobal = _injectGlobal(stringifyRules, css)
-
-let index = 0
-const keyframes = _keyframes(() => `keyframe_${index++}`, stringifyRules, css)
-
-let styled
+import { resetSSR, stripWhitespace } from './utils'
 
 const format = css => stripWhitespace(css).replace(/(\*\/|[}>])/g, "$1\n").replace(/\n\s+/g, "\n")
 
 describe('ssr', () => {
-  beforeEach(() => {
-    styled = resetStyled(true)
-  })
-
   it('should extract the CSS in a simple case', () => {
+    const { styled, keyframes, injectGlobal, ServerStyleSheet } = resetSSR()
+
     const Heading = styled.h1`
       color: red;
     `
@@ -41,6 +28,8 @@ describe('ssr', () => {
   })
 
   it('should extract both global and local CSS', () => {
+    const { styled, keyframes, injectGlobal, ServerStyleSheet } = resetSSR()
+
     injectGlobal`
       body { background: papayawhip; }
     `
@@ -69,6 +58,8 @@ describe('ssr', () => {
   })
 
   it('should render CSS in the order the components were defined, not rendered', () => {
+    const { styled, keyframes, injectGlobal, ServerStyleSheet } = resetSSR()
+
     const ONE = styled.h1.withConfig({ componentId: 'ONE' })`
       color: red;
     `
@@ -100,6 +91,8 @@ describe('ssr', () => {
   })
 
   it('should share global styles but keep renders separate', () => {
+    const { styled, keyframes, injectGlobal, ServerStyleSheet } = resetSSR()
+
     injectGlobal`
       body { background: papayawhip; }
     `
@@ -146,6 +139,8 @@ describe('ssr', () => {
   })
 
   it('should allow global styles to be injected during rendering', () => {
+    const { styled, keyframes, injectGlobal, ServerStyleSheet } = resetSSR()
+
     injectGlobal`html::before { content: 'Before both renders'; }`
     const PageOne = styled.h1.withConfig({ componentId: 'PageOne' })`
       color: red;
@@ -208,6 +203,8 @@ describe('ssr', () => {
   })
 
   it('should dispatch global styles to each ServerStyleSheet', () => {
+    const { styled, keyframes, injectGlobal, ServerStyleSheet } = resetSSR()
+
     injectGlobal`
       body { background: papayawhip; }
     `

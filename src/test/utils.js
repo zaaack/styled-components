@@ -15,10 +15,10 @@ const classNames = () => seededClassnames.shift() || String.fromCodePoint(97 + i
 
 export const seedNextClassnames = (names: Array<string>) => seededClassnames = names
 
-export const resetStyled = (isServer: boolean = false) => {
+export const resetStyled = () => {
   if (!document.head) throw new Error("Missing document <head>")
   document.head.innerHTML = ''
-  StyleSheet.reset(isServer)
+  StyleSheet.reset(false)
   index = 0
 
   const wavefunction = dom.clone()
@@ -28,6 +28,21 @@ export const resetStyled = (isServer: boolean = false) => {
   })
 
   return wavefunction.styled
+}
+
+export const resetSSR = () => {
+  StyleSheet.reset(true)
+  index = 0
+
+  const wavefunction = dom.clone()
+
+  let kf_index = 0
+  wavefunction.modify({
+    nameGenerator: () => classNames,
+    keyframesNameGenerator: () => () => `keyframe_${kf_index++}`,
+  })
+
+  return wavefunction
 }
 
 export const resetNoParserStyled = () => {
