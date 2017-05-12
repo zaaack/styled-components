@@ -69,7 +69,7 @@ describe('basic', () => {
   })
 
   it('should be cloneable and changes only affect one', () => {
-    const other = wavefunction._superposition.createWavefunction()
+    const other = wavefunction.clone()
     const { Product } = wavefunction
     const { Sum } = other
     wavefunction.modify({ Constant: () => 5 })
@@ -81,7 +81,7 @@ describe('basic', () => {
     const { Product } = wavefunction
     wavefunction.modify({ Constant: () => 5 })
     expect(Product(9)).toBe(45)
-    const { Sum } = wavefunction._superposition.createWavefunction()
+    const { Sum } = wavefunction.clone()
     expect(Sum(9)).toBe(16)
   })
 })
