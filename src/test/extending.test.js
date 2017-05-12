@@ -12,7 +12,7 @@ describe('extending', () => {
    * Make sure the setup is the same for every test
    */
   beforeEach(() => {
-    styled = resetStyled()
+    styled = resetStyled().styled
   })
 
   it('should generate empty classes with no styles', () => {

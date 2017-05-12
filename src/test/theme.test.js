@@ -10,7 +10,7 @@ let styled
 
 describe('theming', () => {
   beforeEach(() => {
-    styled = resetStyled()
+    styled = resetStyled().styled
   })
 
   it('should inject props.theme into a styled component', () => {
@@ -208,7 +208,7 @@ describe('theming', () => {
 
 describe('theming', () => {
   beforeEach(() => {
-    styled = resetStyled()
+    styled = resetStyled().styled
   })
 
   it('should properly render with the same theme from default props on re-render', () => {

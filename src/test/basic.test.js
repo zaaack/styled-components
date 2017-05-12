@@ -11,7 +11,7 @@ describe('basic', () => {
    * Make sure the setup is the same for every test
    */
   beforeEach(() => {
-    styled = resetStyled()
+    styled = resetStyled().styled
   })
 
   it('should not throw an error when called', () => {

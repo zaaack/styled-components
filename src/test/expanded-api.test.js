@@ -11,7 +11,7 @@ describe('expanded api', () => {
    * Make sure the setup is the same for every test
    */
   beforeEach(() => {
-    styled = resetStyled()
+    styled = resetStyled().styled
   })
 
   describe('displayName', () => {

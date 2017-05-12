@@ -8,7 +8,7 @@ let styled
 
 describe('props', () => {
   beforeEach(() => {
-    styled = resetStyled()
+    styled = resetStyled().styled
   })
 
   it('should execute interpolations and fall back', () => {

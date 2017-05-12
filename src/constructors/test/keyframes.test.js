@@ -1,19 +1,14 @@
 // @flow
-import _keyframes from '../keyframes'
-import stringifyRules from '../../utils/stringifyRules'
-import css from '../css'
 import { expectCSSMatches, resetStyled } from '../../test/utils'
 
 /**
  * Setup
  */
-let index = 0
-const keyframes = _keyframes(() => `keyframe_${index++}`, stringifyRules, css)
+let keyframes
 
 describe('keyframes', () => {
   beforeEach(() => {
-    resetStyled()
-    index = 0
+    keyframes = resetStyled().keyframes
   })
 
   it('should return its name', () => {

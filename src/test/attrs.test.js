@@ -8,7 +8,7 @@ let styled
 
 describe('attrs', () => {
   beforeEach(() => {
-    styled = resetStyled()
+    styled = resetStyled().styled
   })
 
   it('work fine with an empty object', () => {

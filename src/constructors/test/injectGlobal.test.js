@@ -2,21 +2,18 @@
 import React, { Component } from 'react'
 import { shallow } from 'enzyme'
 
-import _injectGlobal from '../injectGlobal'
-import stringifyRules from '../../utils/stringifyRules'
-import css from '../css'
 import { expectCSSMatches, resetStyled } from '../../test/utils'
 
-const injectGlobal = _injectGlobal(stringifyRules, css)
-
-let styled = resetStyled()
+let injectGlobal, styled
 const rule1 = 'width: 100%;'
 const rule2 = 'padding: 10px;'
 const rule3 = 'color: blue;'
 
 describe('injectGlobal', () => {
   beforeEach(() => {
-    resetStyled()
+    const reset = resetStyled()
+    injectGlobal = reset.injectGlobal
+    styled = reset.styled
   })
 
   it(`should inject rules into the head`, () => {

@@ -1,18 +1,11 @@
 // @flow
-import React from 'react'
-
-import _keyframes from '../../constructors/keyframes'
-import stringifyRules from '../stringifyRules'
-import css from '../css'
-
 import { resetNoParserStyled, expectCSSMatches } from '../../test/utils'
 
-let index = 0
-const keyframes = _keyframes(() => `keyframe_${index++}`, stringifyRules, css)
+let keyframes
 
 describe('keyframes', () => {
   beforeEach(() => {
-    resetNoParserStyled()
+    keyframes = resetNoParserStyled().keyframes
   })
 
   it('should correctly assemble preprocessed CSS', () => {

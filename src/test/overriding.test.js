@@ -11,7 +11,7 @@ describe('extending', () => {
    * Make sure the setup is the same for every test
    */
   beforeEach(() => {
-    styled = resetStyled()
+    styled = resetStyled().styled
   })
 
   it('should let you use another component in a css rule', () => {

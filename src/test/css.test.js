@@ -8,7 +8,7 @@ let styled
 
 describe('css features', () => {
   beforeEach(() => {
-    styled = resetStyled()
+    styled = resetStyled().styled
   })
 
   it('should add vendor prefixes in the right order', () => {

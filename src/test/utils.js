@@ -10,33 +10,20 @@ import StyleSheet from '../models/StyleSheet'
 
 /* Ignore hashing, just return class names sequentially as .a .b .c etc */
 let index = 0
+let kf_index = 0
 let seededClassnames = []
 const classNames = () => seededClassnames.shift() || String.fromCodePoint(97 + index++)
 
 export const seedNextClassnames = (names: Array<string>) => seededClassnames = names
 
-export const resetStyled = () => {
+const reset = (wf, ssr: boolean) => {
   if (!document.head) throw new Error("Missing document <head>")
   document.head.innerHTML = ''
-  StyleSheet.reset(false)
+  StyleSheet.reset(ssr)
   index = 0
 
-  const wavefunction = dom.clone()
+  const wavefunction = wf.clone()
 
-  wavefunction.modify({
-    nameGenerator: () => classNames
-  })
-
-  return wavefunction.styled
-}
-
-export const resetSSR = () => {
-  StyleSheet.reset(true)
-  index = 0
-
-  const wavefunction = dom.clone()
-
-  let kf_index = 0
   wavefunction.modify({
     nameGenerator: () => classNames,
     keyframesNameGenerator: () => () => `keyframe_${kf_index++}`,
@@ -44,21 +31,9 @@ export const resetSSR = () => {
 
   return wavefunction
 }
-
-export const resetNoParserStyled = () => {
-  if (!document.head) throw new Error("Missing document <head>")
-  document.head.innerHTML = ''
-  StyleSheet.reset()
-  index = 0
-
-  const wavefunction = noparser.clone()
-
-  wavefunction.modify({
-    nameGenerator: () => classNames
-  })
-
-  return wavefunction.styled
-}
+export const resetStyled = () => reset(dom, false)
+export const resetSSR = () => reset(dom, true)
+export const resetNoParserStyled = () => reset(noparser, false)
 
 const stripComments = (str: string) =>
   str.replace(/\/\*.*?\*\/\n?/g, '')

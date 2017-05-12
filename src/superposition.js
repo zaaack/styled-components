@@ -28,7 +28,7 @@ import withTheme from './hoc/withTheme'
 export default new Superposition({
   flatten: () => flatten,
   nameGenerator: () => generateAlphabeticName,
-  keyframesNameGenerator: () => generateAlphabeticName,
+  keyframesNameGenerator: ({nameGenerator}) => nameGenerator,
   stringifyRules: () => stringifyRules,
   css,
   ServerStyleSheet: () => ServerStyleSheet,
@@ -40,5 +40,5 @@ export default new Superposition({
   injectGlobal,
   constructWithOptions,
   ThemeProvider: () => ThemeProvider,
-  withTheme,
+  withTheme: () => withTheme,
 })

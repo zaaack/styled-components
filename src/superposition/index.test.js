@@ -82,7 +82,7 @@ describe('basic', () => {
     wavefunction.modify({ Constant: () => 5 })
     expect(Product(9)).toBe(45)
     const { Sum } = wavefunction.clone()
-    expect(Sum(9)).toBe(16)
+    expect(Sum(9)).toBe(14)
   })
 })
 

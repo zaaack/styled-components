@@ -11,7 +11,7 @@ describe('with styles', () => {
    * Make sure the setup is the same for every test
    */
   beforeEach(() => {
-    styled = resetStyled()
+    styled = resetStyled().styled
   })
 
   it('should append a style', () => {

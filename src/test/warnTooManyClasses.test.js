@@ -16,7 +16,7 @@ describe('warn too many classes', () => {
   beforeEach(() => {
     (console: any).warn = () => warnCallCount++
     warnCallCount = 0
-    styled = resetStyled()
+    styled = resetStyled().styled
   })
 
   afterEach(() => {
