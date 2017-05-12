@@ -1,5 +1,6 @@
-import wavefunction from './superposition'
+import superposition from './superposition'
 
+export const wavefunction = superposition.createWavefunction()
 export default wavefunction.styled
 export const {
   css,
@@ -11,4 +12,3 @@ export const {
   StyleSheetManager,
 } = wavefunction
 
-export { wavefunction }

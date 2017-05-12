@@ -4,19 +4,9 @@
  * This sets up our end-to-end test suite, which essentially makes sure
  * our public API works the way we promise/want
  */
-import superposition from '../superposition'
-import _styled from '../constructors/styled'
-import css from '../constructors/css'
-import _constructWithOptions from '../constructors/constructWithOptions'
+import { wavefunction as dom } from '../index'
+import { wavefunction as noparser } from '../no-parser'
 import StyleSheet from '../models/StyleSheet'
-import flatten from '../utils/flatten'
-import stringifyRules from '../utils/stringifyRules'
-import _StyledComponent from '../models/StyledComponent'
-import _ComponentStyle from '../models/ComponentStyle'
-
-import noParserCss from '../no-parser/css'
-import noParserFlatten from '../no-parser/flatten'
-import noParserStringifyRules from '../no-parser/stringifyRules'
 
 /* Ignore hashing, just return class names sequentially as .a .b .c etc */
 let index = 0
@@ -31,7 +21,7 @@ export const resetStyled = (isServer: boolean = false) => {
   StyleSheet.reset(isServer)
   index = 0
 
-  const wavefunction = superposition.createWavefunction()
+  const wavefunction = dom.clone()
 
   wavefunction.modify({
     nameGenerator: () => classNames
@@ -46,11 +36,13 @@ export const resetNoParserStyled = () => {
   StyleSheet.reset()
   index = 0
 
-  const ComponentStyle = _ComponentStyle(classNames, noParserFlatten, noParserStringifyRules)
-  const constructWithOptions = _constructWithOptions(noParserCss)
-  const StyledComponent = _StyledComponent(ComponentStyle, constructWithOptions)
+  const wavefunction = noparser.clone()
 
-  return _styled(StyledComponent, constructWithOptions)
+  wavefunction.modify({
+    nameGenerator: () => classNames
+  })
+
+  return wavefunction.styled
 }
 
 const stripComments = (str: string) =>

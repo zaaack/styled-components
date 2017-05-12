@@ -1,7 +1,7 @@
 function checkType(obj, k) {
   if (typeof obj[k] !== 'function') {
     throw new Error(
-      `Every value must be a function of its dependencies! '${k}' was a ${typeof obj[k]}.`
+      `Every value must be a function of its dependencies! '${k}' was a ${typeof obj[k]}.`,
     )
   }
 }
@@ -17,7 +17,9 @@ export default class Superposition {
 
     const wf = {
       _collapsed: false,
-      _superposition: this,
+      clone() {
+        return new Superposition(Object.assign({}, components)).createWavefunction()
+      },
       modify(comps) {
         if (this._collapsed) throw new Error(`Collapsed due to '${this._collapsed}' having been called.`)
         Object.keys(comps).forEach(name => {

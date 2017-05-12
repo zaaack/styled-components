@@ -1,5 +1,6 @@
 // @flow
-import flatten from './flatten'
-import type { Interpolation, RuleSet } from '../types'
+import type { Interpolation, RuleSet, Flattener } from '../types'
 
-export default (interpolations: Array<Interpolation>): RuleSet => flatten(interpolations)
+export default ({ flatten }: { flatten: Flattener }) => (
+  (interpolations: Array<Interpolation>): RuleSet => flatten(interpolations)
+)
