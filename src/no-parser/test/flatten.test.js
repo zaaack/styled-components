@@ -7,6 +7,7 @@ describe('preparsed flatten without executionContext', () => {
   })
 
   it('drops nulls', () => {
+    // $FlowInvalidInputTest
     expect(flatten([['foo', false, 'bar', undefined, 'baz', null]])).toEqual([['foo', 'bar', 'baz']])
   })
 
@@ -15,6 +16,7 @@ describe('preparsed flatten without executionContext', () => {
   })
 
   it('toStrings everything', () => {
+    // $FlowInvalidInputTest
     expect(flatten([[1, true]])).toEqual([['1', 'true']])
   })
 
@@ -24,16 +26,16 @@ describe('preparsed flatten without executionContext', () => {
       WebkitFilter: 'blur(2px)',
     }
     const css = 'font-size: 14px; -webkit-filter: blur(2px);'
-
+    // $FlowFixMe
     expect(flatten([[obj]])).toEqual([[css]])
-
+    // $FlowFixMe
     expect(flatten([['some:thing;', obj, 'something: else;']])).toEqual([['some:thing;', css, 'something: else;']])
   })
 
   it('flattens nested rulesets', () => {
     expect(
       flatten([[
-        'a', [['c']], 'b'
+        'a', [[ 'c' ]], 'b'
       ]])
     ).toEqual([['a', 'b'], ['c']])
   })
@@ -41,7 +43,7 @@ describe('preparsed flatten without executionContext', () => {
   it('flattens double nested rulesets', () => {
     expect(
       flatten([[
-        'a', [['c', [['d']]]], 'b'
+        'a', [[ 'c', [['d']] ]], 'b'
       ]])
     ).toEqual([['a', 'b'], ['c'], ['d']])
   })
@@ -64,7 +66,7 @@ describe('preparsed flatten with executionContext', () => {
   })
 
   it('drops nulls', () => {
-
+    // $FlowInvalidInputTest
     expect(flatten([['foo', false, 'bar', undefined, 'baz', null]], {})).toEqual(['foobarbaz'])
   })
 
@@ -73,7 +75,7 @@ describe('preparsed flatten with executionContext', () => {
   })
 
   it('toStrings everything', () => {
-
+    // $FlowInvalidInputTest
     expect(flatten([[1, true]], {})).toEqual(['1true'])
   })
 
@@ -83,9 +85,9 @@ describe('preparsed flatten with executionContext', () => {
       WebkitFilter: 'blur(2px)',
     }
     const css = 'font-size: 14px; -webkit-filter: blur(2px);'
-
+    // $FlowFixMe
     expect(flatten([[obj]], {})).toEqual([css])
-
+    // $FlowFixMe
     expect(flatten([['some:thing;', obj, 'something: else;']], {}))
       .toEqual(['some:thing;' + css + 'something: else;'])
   })
@@ -93,7 +95,7 @@ describe('preparsed flatten with executionContext', () => {
   it('flattens nested rulesets', () => {
     expect(
       flatten([[
-        'a', [['c']], 'b'
+        'a', [[ 'c' ]], 'b'
       ]], {})
     ).toEqual(['ab', 'c'])
   })
@@ -101,7 +103,7 @@ describe('preparsed flatten with executionContext', () => {
   it('flattens double nested rulesets', () => {
     expect(
       flatten([[
-        'a', [['c', 'd', [['e', 'f'], ['g', 'h']]]], 'b'
+        'a', [[ 'c', 'd', [['e', 'f'], ['g', 'h']] ]], 'b'
       ]], {})
     ).toEqual(['ab', 'cd', 'ef', 'gh'])
   })

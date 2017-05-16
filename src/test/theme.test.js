@@ -402,7 +402,7 @@ describe('theming', () => {
 
     const inner = wrapper.find(Comp).first()
 
-
+    // $FlowFixMe
     expect(ref).toHaveBeenCalledWith(inner.node)
     expect(inner.prop('innerRef')).toBe(undefined)
   })
@@ -420,7 +420,7 @@ describe('theming', () => {
 
     const inner = wrapper.find(Comp).first()
 
-
+    // $FlowFixMe
     expect(ref).toHaveBeenCalledWith(inner.getDOMNode())
     expect(inner.prop('innerRef')).toBe(ref)
   })
