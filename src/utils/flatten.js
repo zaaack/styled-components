@@ -22,7 +22,7 @@ const flatten = (chunks: Array<Interpolation>, executionContext: ?Object): Array
     if (Array.isArray(chunk)) return [...ruleSet, ...flatten(chunk, executionContext)]
 
     /* Handle other components */
-    // $FlowFixMe not sure how to make this pass
+    // not sure how to make this pass
     if (chunk.hasOwnProperty('styledComponentId')) return [...ruleSet, `.${chunk.styledComponentId}`]
 
     /* Either execute or defer the function */
@@ -33,7 +33,7 @@ const flatten = (chunks: Array<Interpolation>, executionContext: ?Object): Array
     }
 
     /* Handle objects */
-    // $FlowFixMe have to add %checks somehow to isPlainObject
+    // have to add %checks somehow to isPlainObject
     return ruleSet.concat(isPlainObject(chunk) ? objToCss(chunk) : chunk.toString())
   }, [])
 )

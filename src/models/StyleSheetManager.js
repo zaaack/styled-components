@@ -10,7 +10,6 @@ class StyleSheetManager extends Component {
 
   render() {
     /* eslint-disable react/prop-types */
-    // $FlowFixMe
     return React.Children.only(this.props.children)
   }
 }

@@ -165,7 +165,7 @@ describe('native', () => {
       const wrapper = mount(<Comp innerRef={ref} />)
       const view = wrapper.find('View').first()
 
-      // $FlowFixMe
+
       expect(ref).toHaveBeenCalledWith(view.node)
       expect(view.prop('innerRef')).toBeFalsy()
     })
@@ -183,7 +183,7 @@ describe('native', () => {
       const wrapper = mount(<OuterComponent innerRef={ref} />)
       const innerComponent = wrapper.find(InnerComponent).first()
 
-      // $FlowFixMe
+
       expect(ref).toHaveBeenCalledWith(innerComponent.node)
       expect(innerComponent.prop('innerRef')).toBeFalsy()
     })
@@ -197,7 +197,7 @@ describe('native', () => {
       const view = wrapper.find('View').first()
       const innerComponent = wrapper.find(InnerComponent).first()
 
-      // $FlowFixMe
+
       expect(ref).toHaveBeenCalledWith(view.node)
       expect(innerComponent.prop('innerRef')).toBe(ref)
     })

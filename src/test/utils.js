@@ -1,4 +1,4 @@
-// TODO: restore flow
+// @flow
 
 /**
  * This sets up our end-to-end test suite, which essentially makes sure

@@ -4,7 +4,6 @@ export type Interpolation = ((executionContext: Object) => Interpolation) |
   number |
   Array<Interpolation>
 
-/* todo: I want this to actually be an array of Function | string but that causes errors */
 export type RuleSet = Array<Interpolation>
 
 /* eslint-disable no-undef */

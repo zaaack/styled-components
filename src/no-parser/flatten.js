@@ -34,7 +34,7 @@ const flatten = (chunks: Array<Interpolation>, executionContext: ?Object): Array
 
           /* Flatten nested rule set */
           if (isRuleSet(rule)) {
-            // $FlowFixMe Don't know what's wrong here
+            // Don't know what's wrong here
             appendChunks = [...appendChunks, ...flatten(rule, executionContext)]
             return rules
           }
@@ -50,7 +50,7 @@ const flatten = (chunks: Array<Interpolation>, executionContext: ?Object): Array
               const res = rule(executionContext)
 
               if (isRuleSet(res)) {
-                // $FlowFixMe Don't know what's wrong here
+                // Don't know what's wrong here
                 appendChunks = [...appendChunks, ...flatten(res, executionContext)]
                 return rules
               }
