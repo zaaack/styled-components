@@ -1,18 +1,22 @@
 // @flow
 import { createElement } from 'react'
 
-import type { Theme } from './ThemeProvider'
+import type { Theme } from '../models/ThemeProvider'
 
 import isTag from '../utils/isTag'
 import isStyledComponent from '../utils/isStyledComponent'
 import getComponentName from '../utils/getComponentName'
 import type { RuleSet, Target } from '../types'
 
-import { CHANNEL } from './ThemeProvider'
-import InlineStyle from './InlineStyle'
-import AbstractStyledComponent from './AbstractStyledComponent'
+import { CHANNEL } from '../models/ThemeProvider'
+import InlineStyle from '../models/InlineStyle'
+import AbstractStyledComponent from '../models/AbstractStyledComponent'
 
-export default (constructWithOptions: Function) => {
+export default ({
+  constructWithOptions,
+}: {
+  constructWithOptions: Function
+}) => {
   class BaseStyledNativeComponent extends AbstractStyledComponent {
     static target: Target
     static styledComponentId: string
@@ -115,11 +119,9 @@ export default (constructWithOptions: Function) => {
     }
   }
 
-  const createStyledNativeComponent = (
-    target: Target,
-    options: Object,
-    rules: RuleSet,
-  ) => {
+  const createStyledNativeComponent = (target: Target,
+                                       options: Object,
+                                       rules: RuleSet) => {
     const {
       displayName = isTag(target) ? `styled.${target}` : `Styled(${getComponentName(target)})`,
       ParentComponent = BaseStyledNativeComponent,
