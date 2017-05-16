@@ -15,7 +15,6 @@ describe('preparsed flatten without executionContext', () => {
   })
 
   it('toStrings everything', () => {
-
     expect(flatten([[1, true]])).toEqual([['1', 'true']])
   })
 

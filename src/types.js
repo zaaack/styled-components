@@ -1,5 +1,6 @@
 // @flow
-export type Interpolation = ((executionContext: Object) => Interpolation) |
+export type Interpolation =
+  ((executionContext: Object) => Interpolation) |
   string |
   number |
   Array<Interpolation>

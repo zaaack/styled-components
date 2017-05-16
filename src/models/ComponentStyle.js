@@ -4,9 +4,9 @@ import hashStr from '../vendor/glamor/hash'
 import type { RuleSet, NameGenerator, Flattener, Stringifier } from '../types'
 import StyleSheet from './StyleSheet'
 
-export type ComponentStyle = {
+export interface ComponentStyle {
   rules: RuleSet,
-  componentId: string
+  componentId: string,
 }
 
 /*
@@ -23,6 +23,9 @@ export default ({
   stringifyRules: Stringifier,
 }) => {
   class CS implements ComponentStyle {
+    rules: RuleSet
+    componentId: string
+
     constructor(rules: RuleSet, componentId: string) {
       this.rules = rules
       this.componentId = componentId

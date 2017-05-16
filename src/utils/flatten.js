@@ -14,8 +14,8 @@ export const objToCss = (obj: Object, prevKey?: string): string => {
 }` : css
 }
 
-const flatten = (chunks: Array<Interpolation>, executionContext: ?Object): Array<Interpolation> => (
-  chunks.reduce((ruleSet: Array<Interpolation>, chunk: ?Interpolation) => {
+const flatten = (chunks: Array<any>, executionContext: ?Object): Array<Interpolation> => (
+  chunks.reduce((ruleSet: Array<Interpolation>, chunk: ?any) => {
     /* Remove falsey values */
     if (chunk === undefined || chunk === null || chunk === false || chunk === '') return ruleSet
     /* Flatten ruleSet */
@@ -34,7 +34,7 @@ const flatten = (chunks: Array<Interpolation>, executionContext: ?Object): Array
 
     /* Handle objects */
     // have to add %checks somehow to isPlainObject
-    return ruleSet.concat(isPlainObject(chunk) ? objToCss(chunk) : chunk.toString())
+    return ruleSet.concat(isPlainObject(chunk) ? objToCss((chunk: Object)) : chunk.toString())
   }, [])
 )
 

@@ -4,6 +4,10 @@ import PropTypes from 'prop-types'
 import StyleSheet, { CONTEXT_KEY } from './StyleSheet'
 
 class StyleSheetManager extends Component {
+  props: {
+    children?: React$Element<any>,
+    sheet: StyleSheet
+  }
   getChildContext() {
     return { [CONTEXT_KEY]: this.props.sheet }
   }
