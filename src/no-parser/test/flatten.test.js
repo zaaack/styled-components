@@ -7,7 +7,6 @@ describe('preparsed flatten without executionContext', () => {
   })
 
   it('drops nulls', () => {
-    // $FlowInvalidInputTest
     expect(flatten([['foo', false, 'bar', undefined, 'baz', null]])).toEqual([['foo', 'bar', 'baz']])
   })
 
@@ -16,7 +15,6 @@ describe('preparsed flatten without executionContext', () => {
   })
 
   it('toStrings everything', () => {
-    // $FlowInvalidInputTest
     expect(flatten([[1, true]])).toEqual([['1', 'true']])
   })
 
@@ -26,9 +24,7 @@ describe('preparsed flatten without executionContext', () => {
       WebkitFilter: 'blur(2px)',
     }
     const css = 'font-size: 14px; -webkit-filter: blur(2px);'
-    // $FlowFixMe
     expect(flatten([[obj]])).toEqual([[css]])
-    // $FlowFixMe
     expect(flatten([['some:thing;', obj, 'something: else;']])).toEqual([['some:thing;', css, 'something: else;']])
   })
 
@@ -66,7 +62,6 @@ describe('preparsed flatten with executionContext', () => {
   })
 
   it('drops nulls', () => {
-    // $FlowInvalidInputTest
     expect(flatten([['foo', false, 'bar', undefined, 'baz', null]], {})).toEqual(['foobarbaz'])
   })
 
@@ -75,7 +70,6 @@ describe('preparsed flatten with executionContext', () => {
   })
 
   it('toStrings everything', () => {
-    // $FlowInvalidInputTest
     expect(flatten([[1, true]], {})).toEqual(['1true'])
   })
 
@@ -85,9 +79,7 @@ describe('preparsed flatten with executionContext', () => {
       WebkitFilter: 'blur(2px)',
     }
     const css = 'font-size: 14px; -webkit-filter: blur(2px);'
-    // $FlowFixMe
     expect(flatten([[obj]], {})).toEqual([css])
-    // $FlowFixMe
     expect(flatten([['some:thing;', obj, 'something: else;']], {}))
       .toEqual(['some:thing;' + css + 'something: else;'])
   })

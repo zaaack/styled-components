@@ -11,14 +11,14 @@ const isRuleSet = (interpolation: Interpolation): boolean => !!(
   Array.isArray(interpolation[0])
 )
 
-const flatten = (chunks: Array<Interpolation>, executionContext: ?Object): Array<Interpolation> => {
+const flatten = (chunks: Array<any>, executionContext: ?Object): Array<Interpolation> => {
   /* Fall back to old flattener for non-rule-set chunks */
   if (!isRuleSet(chunks)) {
     return _flatten(chunks, executionContext)
   }
 
   return chunks.reduce(
-    (ruleSet: Array<Interpolation>, chunk: ?Interpolation): Array<Interpolation> => {
+    (ruleSet: Array<Interpolation>, chunk: ?any): Array<Interpolation> => {
       if (!Array.isArray(chunk)) {
         return ruleSet
       }
@@ -26,7 +26,7 @@ const flatten = (chunks: Array<Interpolation>, executionContext: ?Object): Array
       let appendChunks = []
 
       const newChunk = chunk.reduce(
-        (rules: Array<Interpolation>, rule: ?Interpolation): Array<Interpolation> => {
+        (rules: Array<Interpolation>, rule: ?any): Array<Interpolation> => {
           /* Remove falsey values */
           if (rule === undefined || rule === null || rule === false || rule === '') {
             return rules
