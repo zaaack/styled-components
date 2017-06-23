@@ -16,9 +16,9 @@ export default (nameGenerator: NameGenerator, flatten: Flattener, stringifyRules
     constructor(rules: RuleSet, componentId: string) {
       this.rules = rules
       this.componentId = componentId
-      if (!StyleSheet.instance.hasInjectedComponent(this.componentId)) {
+      if (!StyleSheet.getInstance().hasInjectedComponent(this.componentId)) {
         const placeholder = process.env.NODE_ENV !== 'production' ? `.${componentId} {}` : ''
-        StyleSheet.instance.deferredInject(componentId, true, placeholder)
+        StyleSheet.getInstance().deferredInject(componentId, true, placeholder)
       }
     }
 

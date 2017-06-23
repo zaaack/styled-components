@@ -9,9 +9,9 @@ export default (stringifyRules: Stringifier, css: Function) => {
     const hash = hashStr(JSON.stringify(rules))
 
     const componentId = `sc-global-${hash}`
-    if (StyleSheet.instance.hasInjectedComponent(componentId)) return
+    if (StyleSheet.getInstance().hasInjectedComponent(componentId)) return
 
-    StyleSheet.instance.inject(componentId, false, stringifyRules(rules))
+    StyleSheet.getInstance().inject(componentId, false, stringifyRules(rules))
   }
 
   return injectGlobal

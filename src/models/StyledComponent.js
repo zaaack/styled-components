@@ -68,7 +68,7 @@ export default (ComponentStyle: Function, constructWithOptions: Function) => {
     generateAndInjectStyles(theme: any, props: any) {
       const { componentStyle, warnTooManyClasses } = this.constructor
       const executionContext = this.buildExecutionContext(theme, props)
-      const styleSheet = this.context[CONTEXT_KEY] || StyleSheet.instance
+      const styleSheet = this.context[CONTEXT_KEY] || StyleSheet.getInstance()
       const className = componentStyle.generateAndInjectStyles(executionContext, styleSheet)
 
       if (warnTooManyClasses !== undefined) warnTooManyClasses(className)
@@ -213,26 +213,22 @@ export default (ComponentStyle: Function, constructWithOptions: Function) => {
         return createStyledComponent(tag, newOptions, rules)
       }
 
-      static get extend() {
+      static extend = (() => {
         const {
-          displayName: _,
-          componentId: __,
+          displayName: ___,
+          componentId: ____,
           rules: rulesFromOptions,
           ...optionsToCopy
         } = options
 
-        const newRules = rulesFromOptions === undefined
-          ? rules
-          : rulesFromOptions.concat(rules)
-
-        const newOptions = {
+        return constructWithOptions(createStyledComponent, target, {
           ...optionsToCopy,
-          rules: newRules,
+          rules: rulesFromOptions === undefined
+            ? rules
+            : rulesFromOptions.concat(rules),
           ParentComponent: StyledComponent,
-        }
-
-        return constructWithOptions(createStyledComponent, target, newOptions)
-      }
+        })
+      })()
     }
 
     return StyledComponent

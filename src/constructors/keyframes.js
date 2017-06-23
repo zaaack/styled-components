@@ -10,13 +10,13 @@ export default (nameGenerator: NameGenerator, stringifyRules: Stringifier, css: 
     const rules = css(strings, ...interpolations)
     const hash = hashStr(replaceWhitespace(JSON.stringify(rules)))
 
-    const existingName = StyleSheet.instance.getName(hash)
+    const existingName = StyleSheet.getInstance().getName(hash)
     if (existingName) return existingName
 
     const name = nameGenerator(hash)
-    if (StyleSheet.instance.alreadyInjected(hash, name)) return name
+    if (StyleSheet.getInstance().alreadyInjected(hash, name)) return name
 
     const generatedCSS = stringifyRules(rules, name, '@keyframes')
-    StyleSheet.instance.inject(`sc-keyframes-${name}`, true, generatedCSS, hash, name)
+    StyleSheet.getInstance().inject(`sc-keyframes-${name}`, true, generatedCSS, hash, name)
     return name
   }

@@ -132,7 +132,7 @@ export default class StyleSheet {
     return newTag
   }
 
-  static get instance() {
+  static getInstance() {
     return instance || (instance = StyleSheet.create())
   }
 

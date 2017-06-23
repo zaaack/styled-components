@@ -1,5 +1,5 @@
 {
-  "name": "styled-components",
+  "name": "styled-components-ie8",
   "version": "2.0.1",
   "description": "Visual primitives for the component age. Use the best bits of ES6 and CSS to style your apps without stress 💅",
   "main": "lib/index.js",
@@ -7,7 +7,7 @@
   "jsnext:main": "dist/styled-components.es.js",
   "module": "dist/styled-components.es.js",
   "scripts": {
-    "build": "npm run build:lib && npm run build:dist",
+    "build": "npm run build:lib && npm run build:dist && npm run copy:npm",
     "prebuild:lib": "rimraf lib/*",
     "build:lib": "babel --out-dir lib src",
     "prebuild:dist": "rimraf dist/*",
@@ -25,7 +25,8 @@
     "typescript": "tsc --project ./typings/tests",
     "prepublish": "npm run build",
     "lint-staged": "lint-staged",
-    "dev": "babel-node example/devServer.js"
+    "dev": "babel-node example/devServer.js",
+    "copy:npm": "cp -R lib dist typings package.json ./npm"
   },
   "repository": {
     "type": "git",

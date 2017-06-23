@@ -84,7 +84,7 @@ export default class ServerStyleSheet {
   closed: boolean
 
   constructor() {
-    this.instance = StyleSheet.clone(StyleSheet.instance)
+    this.instance = StyleSheet.clone(StyleSheet.getInstance())
   }
 
   collectStyles(children: any) {
